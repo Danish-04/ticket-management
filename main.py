@@ -1,4 +1,3 @@
-TICKETLIST = []
 TICKET_DICT = {}
 
 class Ticket:
@@ -10,7 +9,7 @@ class Ticket:
         self.date = date
         self.name = name
         self.age = age
-        self.price = price  # Store the price when creating a Ticket object
+        self.price = price  
         self.Ticketid = Ticket.Ticketid
         Ticket.Ticketid += 1
 
@@ -27,7 +26,7 @@ Destination   :{self.destination}
 Date          :{self.date}
 Name          :{self.name}
 Age           :{self.age}
-Price         :Rs.{self.price}"""  # Include the price in the ticket details
+Price         :Rs.{self.price}"""  
 
 def calculate_price(origin, destination):
     city_distances = {
@@ -51,7 +50,6 @@ def add_tickets():
     origin = input("Enter Origin          : ")
     destination = input("Enter Destination: ")
     
-    # Calculate the price using calculate_price function
     price = calculate_price(origin, destination)
 
     date = input("Enter Date              : ")
@@ -61,9 +59,8 @@ def add_tickets():
     ticket = Ticket(origin, destination, date, name, age, price)
 
     ticket_details = (origin, destination, date, name, age, price)
-    TICKETLIST.append(ticket_details)
-    booking_id = ticket.generate_ticket_booking_id()
-    TICKET_DICT[booking_id] = ticket
+    TICKET_DICT[ticket.generate_ticket_booking_id()] = ticket
+    print("Ticket Booked Added Successfully..!")
 
 def show_tickets():
     for booking_id, ticket in TICKET_DICT.items():
@@ -101,34 +98,38 @@ def Update_Ticket():
     else:
         print("Booking ID not found.")
 
+def cancel_ticket():
+    booking_id = input("Enter Booking ID to Cancel the Ticket: ")
+    if booking_id in TICKET_DICT:
+        del TICKET_DICT[booking_id]
+        print(f"Ticket {booking_id} has been canceled successfully.")
+    else:
+        print("Booking ID not found.")
+
 def main():
     while True:
         print("Choose the option")
         print("1. Book a new Ticket")
         print("2. Show a Ticket")
         print("3. Update Ticket")
-        print("4. Exit")
+        print("4. Cancel Ticket")
+        print("5. Exit")
 
         choice = int(input("Enter your choice: "))
 
         if choice == 1:
             add_tickets()
-            print("Ticket Booked Added Successfully..!")
-
         elif choice == 2:
-            for booking_id, ticket in TICKET_DICT.items():
-                print(ticket)
-
+            show_tickets()
         elif choice == 3:
             Update_Ticket()
-
         elif choice == 4:
+            cancel_ticket()
+        elif choice == 5:
             print("---End of program---")
             break
-
         else:
             print("Choose the Correct Input")
 
 if __name__ == "__main__":
     main()
-
